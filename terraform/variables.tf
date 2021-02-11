@@ -33,9 +33,9 @@ variable "github_personal_access_token" {
 # The repository definitions
 variable "repositories" {
   default = {
-    "logicApp-strawman" = {
-      description = "A simple logic app demo"
-      repository_template = "basic-template"
+    "repository-strawman" = {
+      description = "A empty repo to demo repository creation"
+      repository_template = "template-empty"
     }
   }
 }
