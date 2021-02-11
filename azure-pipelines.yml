@@ -1,0 +1,59 @@
+trigger:
+  branches:
+    include:
+    - master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+- group: AccessTokens
+- group: ServiceConnections
+- group: AzureDefaults
+- group: GitHubDefaults
+- name: terraformKey
+  value: $(Build.Repository.Name)
+
+steps:
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+  displayName: 'Install Terraform'
+  inputs:
+    terraformVersion: 0.13.5
+
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
+  displayName: 'Terraform init'
+  inputs:
+    provider: "azurerm"
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    backendServiceArm: $(AzureServiceConnection)
+    backendAzureRmResourceGroupName: $(TerraformStateRG)
+    backendAzureRmStorageAccountName: $(TerraformStateStorageAccount)
+    backendAzureRmContainerName: $(TerraformStateContainer)
+    backendAzureRmKey: $(terraformKey)
+
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
+  displayName: 'Terraform : plan'
+  inputs:
+    provider: "azurerm"
+    command: plan
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    environmentServiceNameAzureRM: $(terraformAzureServiceConnection)
+    commandOptions: '-input=false -out $(terraformKey)'
+  env:
+    TF_VAR_devops_personal_access_token: $(DevopsPersonalAccessToken)
+    TF_VAR_github_personal_access_token: $(GithubPersonalAccessToken)
+    TF_VAR_github_service_connection_id: $(GitHubServiceConnectionUUID)
+    TF_VAR_github_organisation: $(GitHubOrganisation)
+    TF_VAR_devops_url: $(System.CollectionUri)
+    TF_VAR_project_name: $(System.TeamProject)
+
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
+  displayName: 'Terraform : apply'
+  inputs:
+    provider: "azurerm"
+    command: apply
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    environmentServiceNameAzureRM: $(terraformAzureServiceConnection)
+    commandOptions: $(terraformKey)
+
+
