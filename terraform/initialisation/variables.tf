@@ -20,3 +20,6 @@ variable "github_organisation" {
 variable "repository_template" {
   description = "The template repository that the new repository will be created from, assumes that the template is in the same organisation that the new repository will be."
 }
+variable "pipelines" {
+  description = "A map of the pipeline name and location of the Azure pipeline"
+}
