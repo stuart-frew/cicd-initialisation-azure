@@ -30,7 +30,7 @@ resource "github_branch_protection" "branch_protection" {
 resource "azuredevops_build_definition" "pipeline" {
   project_id = var.project_name
   name       = var.repository_name
-  path       = "${var.repository_name}\\Build ${var.repository_name}"
+  path       = "\\${var.repository_name}\\Build ${var.repository_name}"
 
   ci_trigger {
     use_yaml = true
