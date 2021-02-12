@@ -11,10 +11,17 @@ variables:
 - group: ServiceConnections
 - group: AzureDefaults
 - group: GitHubDefaults
-- name: terraformKey
-  value: $(Build.Repository.Name)
 
 steps:
+- task: Bash@3
+  displayName: "Format terraform state key name"
+  inputs:
+    targetType: "inLine"
+    script: |
+      NAME=`echo -n $(Build.Repository.Name) | tr / . `
+      echo $NAME
+      echo "##vso[task.setvariable variable=terraformKey]$NAME"
+
 - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
   displayName: 'Install Terraform'
   inputs:
