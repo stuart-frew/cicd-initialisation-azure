@@ -35,7 +35,7 @@ steps:
   displayName: Diagnostics
   inputs:
     targetType: "inLine"
-    script: echo "[$(DevopsPersonalAccessToken)]"
+    script: echo "[$(TerraformStateContainer)]"
 
 - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
   displayName: 'Terraform : plan'
