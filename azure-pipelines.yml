@@ -40,12 +40,12 @@ steps:
     environmentServiceNameAzureRM: $(AzureServiceConnection)
     commandOptions: '-input=false -out $(terraformKey)'
   env:
-    TF_VAR_devops_personal_access_token: $(DevopsPersonalAccessToken)
     TF_VAR_github_personal_access_token: $(GithubPersonalAccessToken)
     TF_VAR_github_service_connection_id: $(GitHubServiceConnectionUUID)
     TF_VAR_github_organisation: $(GitHubOrganisation)
     TF_VAR_devops_url: $(System.CollectionUri)
     TF_VAR_project_name: $(System.TeamProject)
+    TF_VAR_devops_personal_access_token: $(DevopsPersonalAccessToken)
 
 - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
   displayName: 'Terraform : apply'
