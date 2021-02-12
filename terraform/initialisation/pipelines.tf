@@ -31,8 +31,8 @@ resource "azuredevops_build_definition" "pipeline" {
   for_each = var.pipelines
 
   project_id = var.project_name
-  name       = var.repository_name
-  path       = "\\${var.repository_name}\\${each.key} ${var.repository_name}"
+  name       = each.key
+  path       = "\\${var.repository_name}"
 
   ci_trigger {
     use_yaml = true
