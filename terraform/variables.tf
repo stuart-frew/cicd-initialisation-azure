@@ -36,6 +36,10 @@ variable "repositories" {
     "repository-strawman" = {
       description = "A empty repo to demo repository creation"
       repository_template = "template-empty"
+      pipelines = {
+        build = "azure-pipelines.yml"
+        build2 = "azure-pipelines2.yml"
+      }
     }
   }
 }
