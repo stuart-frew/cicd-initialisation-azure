@@ -37,7 +37,7 @@ steps:
     provider: "azurerm"
     command: plan
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-    environmentServiceNameAzureRM: $(terraformAzureServiceConnection)
+    environmentServiceNameAzureRM: $(AzureServiceConnection)
     commandOptions: '-input=false -out $(terraformKey)'
   env:
     TF_VAR_devops_personal_access_token: $(DevopsPersonalAccessToken)
@@ -53,7 +53,7 @@ steps:
     provider: "azurerm"
     command: apply
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-    environmentServiceNameAzureRM: $(terraformAzureServiceConnection)
+    environmentServiceNameAzureRM: $(AzureServiceConnection)
     commandOptions: $(terraformKey)
 
 
